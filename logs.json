@@ -1,0 +1,112 @@
+{
+  "128577376380608": {
+    "pid": 128577376380608,
+    "medico": 1,
+    "chegada": "2025-04-26T22:46:24.713699Z",
+    "nivel": "verde",
+    "inicio": "2025-04-26T22:46:24.714772Z",
+    "saida": "2025-04-26T22:46:29.714855Z",
+    "espera": 0.001073,
+    "duracao": 5.000083,
+    "desistencia": false
+  },
+  "128576691107520": {
+    "pid": 128576691107520,
+    "medico": 2,
+    "chegada": "2025-04-26T22:46:25.603103Z",
+    "nivel": "verde",
+    "inicio": "2025-04-26T22:46:25.603612Z",
+    "saida": "2025-04-26T22:46:30.603704Z",
+    "espera": 0.000509,
+    "duracao": 5.000092,
+    "desistencia": false
+  },
+  "128577253123776": {
+    "pid": 128577253123776,
+    "medico": 3,
+    "chegada": "2025-04-26T22:46:25.803412Z",
+    "nivel": "verde",
+    "inicio": "2025-04-26T22:46:25.803875Z",
+    "saida": "2025-04-26T22:46:30.803968Z",
+    "espera": 0.000463,
+    "duracao": 5.000093,
+    "desistencia": false
+  },
+  "128577261516480": {
+    "pid": 128577261516480,
+    "medico": 4,
+    "chegada": "2025-04-26T22:46:26.203995Z",
+    "nivel": "verde",
+    "inicio": "2025-04-26T22:46:26.204397Z",
+    "saida": "2025-04-26T22:46:31.204484Z",
+    "espera": 0.000402,
+    "duracao": 5.000087,
+    "desistencia": false
+  },
+  "128577286694592": {
+    "pid": 128577286694592,
+    "medico": 5,
+    "chegada": "2025-04-26T22:46:26.257182Z",
+    "nivel": "verde",
+    "inicio": "2025-04-26T22:46:26.257436Z",
+    "saida": "2025-04-26T22:46:31.257514Z",
+    "espera": 0.000254,
+    "duracao": 5.000078,
+    "desistencia": false
+  },
+  "128577278301888": {
+    "pid": 128577278301888,
+    "medico": null,
+    "chegada": "2025-04-26T22:46:27.309526Z",
+    "nivel": "verde",
+    "inicio": null,
+    "saida": "2025-04-26T22:46:29.463808Z",
+    "espera": 2.154282,
+    "duracao": null,
+    "desistencia": true
+  },
+  "128577384773312": {
+    "pid": 128577384773312,
+    "medico": 1,
+    "chegada": "2025-04-26T22:46:27.480662Z",
+    "nivel": "verde",
+    "inicio": "2025-04-26T22:46:29.715145Z",
+    "saida": "2025-04-26T22:46:34.715226Z",
+    "espera": 2.234483,
+    "duracao": 5.000081,
+    "desistencia": false
+  },
+  "128577295087296": {
+    "pid": 128577295087296,
+    "medico": null,
+    "chegada": "2025-04-26T22:46:27.508187Z",
+    "nivel": "verde",
+    "inicio": null,
+    "saida": "2025-04-26T22:46:30.464203Z",
+    "espera": 2.956016,
+    "duracao": null,
+    "desistencia": true
+  },
+  "128577244731072": {
+    "pid": 128577244731072,
+    "medico": null,
+    "chegada": "2025-04-26T22:46:27.869848Z",
+    "nivel": "verde",
+    "inicio": null,
+    "saida": "2025-04-26T22:46:30.464203Z",
+    "espera": 2.594355,
+    "duracao": null,
+    "desistencia": true
+  },
+  "128577269909184": {
+    "pid": 128577269909184,
+    "medico": null,
+    "chegada": "2025-04-26T22:46:28.418871Z",
+    "nivel": "verde",
+    "inicio": null,
+    "saida": "2025-04-26T22:46:30.464203Z",
+    "espera": 2.045332,
+    "duracao": null,
+    "desistencia": true
+  }
+}
