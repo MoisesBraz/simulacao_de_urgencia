@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Dashboard Urgências</title>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .chart-container { width: 600px; height: 400px; margin-bottom: 40px; }
+    table { border-collapse: collapse; margin-top: 20px; }
+    table, th, td { border: 1px solid #ccc; }
+    th, td { padding: 8px 12px; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Dashboard de Urgências</h1>
+
+  <div id="filas-chart" class="chart-container"></div>
+  <div id="taxa-chart" class="chart-container"></div>
+  <div id="medicos-chart" class="chart-container"></div>
+
+  <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+</body>
+</html>
