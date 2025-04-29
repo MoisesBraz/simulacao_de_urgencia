@@ -1,87 +1,86 @@
 const API = {
-  filas:  '/api/filas/',
-  stats:  '/api/stats/',
+  filas:   '/api/filas/',
+  stats:   '/api/stats/',
   medicos: '/api/medicos/',
 };
 
+// Loop de atualização
 async function fetchData() {
   try {
     const [r1, r2, r3] = await Promise.all([
-      fetch(API.filas), fetch(API.stats), fetch(API.medicos)
+      fetch(API.filas),
+      fetch(API.stats),
+      fetch(API.medicos),
     ]);
-    const filas   = await r1.json();
-    const stats   = await r2.json();
-    const { medicos } = await r3.json();
 
-    renderFilas(filas);
-    renderTaxa(stats);
-    renderMedicos(medicos);
-    renderTabela(medicos);
+    const filasResp = await r1.json();
+    const statsResp = await r2.json();
+    const medResp   = await r3.json();
+
+    renderFilas(filasResp);
+    renderTaxa(statsResp);
+
+    renderMedicosChart(medResp);
+    renderTabela(medResp.medicos);
+
   } catch (err) {
-    console.error('Erro no polling:', err);
+    console.error('[dashboard] erro no polling:', err);
   }
 }
 
 fetchData();
-// atualiza a cada 2s
-setInterval(fetchData, 2000);
+setInterval(fetchData, 2_000);
 
-function renderFilas(data) {
+// Gráficos e tabela
+function renderFilas({ verde, amarelo, vermelho }) {
   Highcharts.chart('filas-chart', {
     chart: { type: 'column' },
     title: { text: 'Filas de Espera' },
-    xAxis: { categories: ['Verde','Amarelo','Vermelho'] },
-    series: [{ name: 'Pacientes',
-      data: [data.verde, data.amarelo, data.vermelho]
-    }]
+    xAxis: { categories: ['Verde', 'Amarelo', 'Vermelho'] },
+    series: [{ name: 'Pacientes', data: [verde, amarelo, vermelho] }],
   });
 }
 
-function renderTaxa(data) {
+function renderTaxa({ atendidos, desistencias, esperando }) {
   Highcharts.chart('taxa-chart', {
     chart: { type: 'pie' },
-    title: { text: 'Taxa de Conclusão (total de pacientes)' },
+    title: { text: 'Taxa de Conclusão' },
     plotOptions: {
-      pie: {
-        dataLabels: {
-          format: '{point.name}: {point.percentage:.1f}%'
-        }
-      }
+      pie: { dataLabels: { format: '{point.name}: {point.percentage:.1f}%' } },
     },
     series: [{
       name: 'Pacientes',
       data: [
-        { name: 'Atendidos',  y: data.atendidos  },
-        { name: 'Desistências', y: data.desistencias },
-        { name: 'Esperando',  y: data.esperando  }
-      ]
-    }]
+        { name: 'Atendidos',    y: atendidos    },
+        { name: 'Desistências', y: desistencias },
+        { name: 'Esperando',    y: esperando    },
+      ],
+    }],
   });
 }
 
-function renderMedicos(medicos) {
-  const livres   = medicos.filter(m => !m.ocupado).length;
-  const ocupados = medicos.filter(m => m.ocupado).length;
+function renderMedicosChart({ medicos_livres, medicos_ocupados, medicos_totais }) {
   Highcharts.chart('medicos-chart', {
     chart: { type: 'bar' },
-    title: { text: 'Médicos: Livres vs Ocupados' },
+    title: { text: `Médicos (total ${medicos_totais})` },
     xAxis: { categories: ['Médicos'] },
     series: [
-      { name: 'Livres',   data: [livres] },
-      { name: 'Ocupados', data: [ocupados] }
-    ]
+      { name: 'Livres',   data: [medicos_livres]   },
+      { name: 'Ocupados', data: [medicos_ocupados] },
+    ],
   });
 }
 
 function renderTabela(medicos) {
   const tbody = document.querySelector('#tabela-medicos tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
-  medicos.forEach(m => {
+
+  medicos.forEach(({ id, sala, ocupado }) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${m.id}</td>
-      <td>${m.sala ?? '-'}</td>
-      <td>${m.ocupado ? 'Ocupado' : 'Livre'}</td>
+      <td>${id}</td>
+      <td>${ocupado ? 'Ocupado' : 'Livre'}</td>
     `;
     tbody.appendChild(tr);
   });

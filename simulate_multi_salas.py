@@ -71,6 +71,14 @@ if __name__ == '__main__':
     if os.path.exists('logs.json'):
         os.remove('logs.json')
 
+    # Grava o estado inicial de médicos e salas
+    initial = {
+        'medicos_totais': MEDICOS,
+        'salas_totais': SALAS,
+    }
+    with open('logs.json', 'w', encoding='utf-8') as f:
+        json.dump(initial, f, ensure_ascii=False, indent=2)
+
     srv = start_server(SALAS, MEDICOS)
     time.sleep(1)
 

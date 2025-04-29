@@ -106,7 +106,24 @@ class Room:
             fim = datetime.utcnow().isoformat() + 'Z'
             duracao = (datetime.fromisoformat(fim[:-1]) -
                        datetime.fromisoformat(inicio[:-1])).total_seconds()
-            record = {
+            record_start = {
+                "pid": pid,
+                "medico": f"{self.room_id}-{med_id}",
+                "room": self.room_id,
+                "chegada": ts,
+                "nivel": urg,
+                "inicio": inicio,
+                "saida": None,
+                "espera": espera,
+                "duracao": None,
+                "desistencia": False
+            }
+            with self.log_lock:
+                self.log_event(record_start)
+
+            time.sleep(2)
+
+            record_end = {
                 "pid": pid,
                 "medico": f"{self.room_id}-{med_id}",
                 "room": self.room_id,
@@ -118,8 +135,10 @@ class Room:
                 "duracao": duracao,
                 "desistencia": False
             }
+
             with self.log_lock:
-                self.log_event(record)
+                self.log_event(record_end)
+
             print(f"[Sala {self.room_id}] Médico {med_id} terminou PID {pid} ({urg}) "
                   f"espera {espera:.1f}s, duração {duracao:.1f}s")
 
