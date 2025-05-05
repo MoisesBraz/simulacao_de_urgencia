@@ -80,10 +80,10 @@ def listar_medicos(request):
         if not isinstance(rec, dict):
             continue
         # Consulta em andamento
-        if rec.get('inicio') and not rec.get('saida'):
+        if rec.get('inicio') is not None and rec.get('saida') is None:
             medico = rec.get('medico')
             sala = rec.get('room')
-            if medico and sala:
+            if medico is not None and sala is not None:
                 medico_sala[medico] = sala
 
     ocupados_med = len(medico_sala)

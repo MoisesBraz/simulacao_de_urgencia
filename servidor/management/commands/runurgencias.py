@@ -129,12 +129,26 @@ class Command(BaseCommand):
                 inicio = datetime.utcnow().isoformat() + 'Z'
                 espera = (datetime.fromisoformat(inicio[:-1])
                           - datetime.fromisoformat(ts[:-1])).total_seconds()
+                rec_start = {
+                    "pid": pid,
+                    "medico": med_id,
+                    "room": sala_id,
+                    "chegada": ts,
+                    "nivel": urg,
+                    "inicio": inicio,
+                    "saida": None,
+                    "espera": espera,
+                    "duracao": None,
+                    "desistencia": False
+                }
+                with self._log_lock:
+                    self.log_event(rec_start)
+
                 time.sleep(tempo)
                 fim = datetime.utcnow().isoformat() + 'Z'
                 dur = (datetime.fromisoformat(fim[:-1])
                        - datetime.fromisoformat(inicio[:-1])).total_seconds()
-
-                rec = {
+                rec_end = {
                     "pid": pid,
                     "medico": med_id,
                     "room": sala_id,
@@ -147,8 +161,7 @@ class Command(BaseCommand):
                     "desistencia": False
                 }
                 with self._log_lock:
-                    self.log_event(rec)
-
+                    self.log_event(rec_end)
                 self.stdout.write(
                     f"[{fim}] Méd {med_id}(S{sala_id}) PID{pid} {urg} "
                     f"espera {espera:.1f}s dur {dur:.1f}s"
