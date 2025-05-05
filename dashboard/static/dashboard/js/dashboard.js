@@ -21,8 +21,6 @@ async function fetchData() {
     renderTaxa(statsResp);
 
     renderMedicosChart(medResp);
-    renderTabela(medResp.medicos);
-
   } catch (err) {
     console.error('[dashboard] erro no polling:', err);
   }
@@ -68,20 +66,5 @@ function renderMedicosChart({ medicos_livres, medicos_ocupados, medicos_totais }
       { name: 'Livres',   data: [medicos_livres]   },
       { name: 'Ocupados', data: [medicos_ocupados] },
     ],
-  });
-}
-
-function renderTabela(medicos) {
-  const tbody = document.querySelector('#tabela-medicos tbody');
-  if (!tbody) return;
-  tbody.innerHTML = '';
-
-  medicos.forEach(({ id, sala, ocupado }) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${id}</td>
-      <td>${ocupado ? 'Ocupado' : 'Livre'}</td>
-    `;
-    tbody.appendChild(tr);
   });
 }
