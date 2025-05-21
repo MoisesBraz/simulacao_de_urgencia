@@ -1619,7 +1619,7 @@
     "saida": "2025-05-21T14:34:45.340805Z",
     "espera": 0.001321,
     "duracao": 15.00165,
-    "desistencia": false
+    "desistencia": true
   },
   "135": {
     "pid": 135,
@@ -1631,7 +1631,7 @@
     "saida": "2025-05-21T14:34:45.390059Z",
     "espera": 0.000975,
     "duracao": 15.001103,
-    "desistencia": false
+    "desistencia": true
   },
   "136": {
     "pid": 136,
@@ -1643,7 +1643,7 @@
     "saida": "2025-05-21T14:34:47.442255Z",
     "espera": 0.001309,
     "duracao": 15.001073,
-    "desistencia": false
+    "desistencia": true
   },
   "137": {
     "pid": 137,
@@ -2127,14 +2127,14 @@
   },
   "177": {
     "pid": 177,
-    "medico": "7-1",
+    "medico": "1",
     "room": 7,
     "chegada": "2025-05-21T14:35:14.533183Z",
     "nivel": "amarelo",
     "inicio": "2025-05-21T14:35:58.965819Z",
-    "saida": null,
+    "saida": "2025-05-21T14:36:08.967377Z",
     "espera": 44.432636,
-    "duracao": null,
+    "duracao": 10.001558,
     "desistencia": false
   },
   "178": {
@@ -2400,5 +2400,6 @@
     "espera": 0.001879,
     "duracao": 10.00173,
     "desistencia": false
-  }
+  },
+  "total_surtos": 100
 }

@@ -28,8 +28,8 @@
     "ocupado": false
   },
   "7-1": {
-    "room": 7,
-    "ocupado": true
+    "room": null,
+    "ocupado": false
   },
   "8-1": {
     "room": null,
