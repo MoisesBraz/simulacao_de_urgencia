@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import render
 
+STATUS_FILE = os.path.join(settings.BASE_DIR, 'med_status.json')
 LOG_FILE = os.path.join(settings.BASE_DIR, 'logs.json')
 
 def estado_filas(request):
@@ -66,48 +67,45 @@ def listar_medicos(request):
         }
     """
     try:
-        with open(LOG_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+        with open(STATUS_FILE, 'r', encoding='utf-8') as f:
+            status = json.load(f)
     except (FileNotFoundError, JSONDecodeError):
-        data = {}
+        status= {}
+    # Visualiza o num_total de salas do logs
+    try:
+        with open(LOG_FILE, 'r', encoding='utf-8') as f:
+            meta = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        meta = {}
+    TOTAL_SALAS = meta.get('salas_totais', 0)
 
-    TOTAL_MEDICOS = data.get('medicos_totais', 0)
-    TOTAL_SALAS = data.get('salas_totais', 0)
+    # Calcula totais de médicos a partir do status
+    TOTAL_MEDICOS = len(status)
+    ocupados_med = sum(1 for v in status.values() if v.get('ocupado'))
+    livres_med = TOTAL_MEDICOS - ocupados_med
 
-    # Constroi dicinário de médico
-    medico_sala = {}
-    for rec in data.values():
-        if not isinstance(rec, dict):
-            continue
-        # Consulta em andamento
-        if rec.get('inicio') is not None and rec.get('saida') is None:
-            medico = rec.get('medico')
-            sala = rec.get('room')
-            if medico is not None and sala is not None:
-                medico_sala[medico] = sala
-
-    ocupados_med = len(medico_sala)
-    livres_med = max(0, TOTAL_MEDICOS - ocupados_med)
-    ocupadas_sal = len(set(medico_sala.values()))
-    livres_sal = max(0, TOTAL_SALAS - ocupadas_sal)
+    # Calcula salas ocupadas e livres
+    salas_ocupadas = len({ v.get('room') for v in status.values() if v.get('ocupado') })
+    salas_livres = max(0, TOTAL_SALAS - salas_ocupadas)
 
     # Montar lista para envio do front-end
     medicos = []
-    for mid in range(1, TOTAL_MEDICOS + 1):
+    for med_key, v in status.items():
+        ocupado = bool(v.get('ocupado'))
+        sala = v.get('room') if ocupado else None
         medicos.append({
-            'id': mid,
-            'sala': medico_sala.get(mid, '-'),
-            'ocupado': mid in medico_sala,
+            'id': med_key,
+            'sala': sala,
+            'ocupado': ocupado,
         })
-
     resp = {
         'medicos': medicos,
         'medicos_totais': TOTAL_MEDICOS,
         'medicos_livres': livres_med,
         'medicos_ocupados': ocupados_med,
         'salas_totais': TOTAL_SALAS,
-        'salas_livres': livres_sal,
-        'salas_ocupadas': ocupadas_sal,
+        'salas_livres': salas_livres,
+        'salas_ocupadas': salas_ocupadas,
     }
     return JsonResponse(resp)
 

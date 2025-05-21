@@ -1,3 +1,4 @@
+import os
 import socket
 import threading
 import time
@@ -13,6 +14,8 @@ from servidor.constants import (
     TIMEOUTS,
     MAX_PACIENTES
 )
+MED_STATUS_FILE = 'med_status.json'
+LOG_FILE        = 'logs.json'
 
 """
 Iniciar servidor TCP de urgências 
@@ -23,7 +26,7 @@ escuta conexões de pacientes (processos clientes) e envia a confirmação de ch
 
 
 class Command(BaseCommand):
-    help = "Servidor de urgencias com multi-salas"
+    help = "Servidor de urgencias com multi-salas 1 médico por sala. "
 
     def add_arguments(self, parser):
         parser.add_argument('--host', default='127.0.0.1')
@@ -34,31 +37,48 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._log_lock = threading.Lock()
-        # Salas de fila de espera
-        self.salas = []
-        self._queue_cv = threading.Condition()
 
     def log_event(self, record):
         try:
-            with open('logs.json', 'r', encoding='utf-8') as f:
+            with open(LOG_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             data = {}
         data[str(record['pid'])] = record
-        with open('logs.json', 'w', encoding='utf-8') as f:
+        with open(LOG_FILE, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
     def handle(self, *args, **opts):
         host = opts['host']
         port = opts['port']
         n_salas = opts['salas']
-        n_medicos = n_salas
+        n_medicos = 1
 
-        # Instancia as salas cada Room cria a sua lógica de fila, médicos e purga
+        if not os.path.exists(MED_STATUS_FILE):
+            initial = {
+                f"{room_id}-{med_id}": {'room': room_id, 'ocupado': False}
+                for room_id in range(n_salas)
+                for med_id in range(1, n_medicos + 1)
+            }
+            with open(MED_STATUS_FILE, 'w', encoding='utf-8') as f:
+                json.dump(initial, f, ensure_ascii=False, indent=2)
+
+        # Instância as salas cada Room cria a sua lógica de fila, médicos e purga
         self.rooms = [
             Room(room_id=i, num_medicos=n_medicos)
             for i in range(n_salas)
         ]
+        self._next_sala = 0
+
+        # Inicializa o med_status.json
+        initial = {}
+        for room in self.rooms:
+            # Cada sala = 1 médico cujo key é "salaID-medID"
+            med_key = f"{room.room_id}-1"
+            initial[med_key] = {'room': room.room_id, 'ocupado': False}
+        with open('med_status.json', 'w', encoding='utf-8') as f:
+            json.dump(initial, f, ensure_ascii=False, indent=2)
+
         self._next_sala = 0
 
         # servidor TCP

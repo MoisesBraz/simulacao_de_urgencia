@@ -5,9 +5,6 @@ import json
 from datetime import datetime
 from servidor.constants import TIMEOUTS, TEMPOS_ATENDIMENTO, URGENCIA_PRIORIDADES
 
-# Registo global de todas as salas criadas
-ROOM_INSTANCES = []
-
 
 class Room:
     def __init__(self, room_id, num_medicos=5):
@@ -16,9 +13,7 @@ class Room:
         self.cv = threading.Condition()  # Condiciona a chegada/saida de pacientes
         self.log_lock = threading.Lock()
 
-        ROOM_INSTANCES.append(self)
-
-        # Ativa todos os médicos desta sala
+        # Ativa todos os médicos desta sala com threads
         for m in range(1, num_medicos + 1):
             t = threading.Thread(target=self.medico_worker, args=(m,), daemon=True)
             t.start()
@@ -37,6 +32,17 @@ class Room:
         data[str(record['pid'])] = record
         with open('logs.json', 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
+
+    def _update_med_status(self, med_key, room, ocupado):
+        """Atualiza med_status.json quando o médico começa ou termina o atendimento"""
+        try:
+            with open('med_status.json', 'r', encoding='utf-8') as f:
+                status = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            status = {}
+        status[med_key] = {'room': room if ocupado else None, 'ocupado': ocupado}
+        with open('med_status.json', 'w', encoding='utf-8') as f:
+            json.dump(status, f, ensure_ascii=False, indent=2)
 
     def purge_worker(self):
         """Desistência dentro desta sala caso o doente espera demasiado"""
@@ -72,7 +78,8 @@ class Room:
                 heapq.heapify(self.queue)
 
     def medico_worker(self, med_id):
-        """Atende pacientes desta sala"""
+        """Atende pacientes desta sala e atualiza o med_status.json"""
+        med_key = f"{self.room_id}-{med_id}"
         while True:
             with self.cv:
                 # Espera paciente na fila
@@ -90,7 +97,7 @@ class Room:
 
             rec_start = {
                 "pid": pid,
-                "medico": f"{med_id}",
+                "medico": med_key,
                 "room": self.room_id,
                 "chegada": ts,
                 "nivel": urg,
@@ -103,6 +110,7 @@ class Room:
 
             with self.log_lock:
                 self.log_event(rec_start)
+            self._update_med_status(med_key, self.room_id, True)
 
             # Simula atendimento
             time.sleep(dur)
@@ -127,9 +135,12 @@ class Room:
 
             with self.log_lock:
                 self.log_event(record_end)
+            self._update_med_status(med_key, self.room_id, False)
 
-            print(f"[Sala {self.room_id}] Médico {med_id} terminou PID {pid} ({urg}) "
-                  f"espera {espera:.1f}s, duração {duracao:.1f}s")
+            print(
+                f"[Sala {self.room_id}] Médico {med_id} terminou PID {pid} ({urg}) "
+                f"espera {espera:.1f}s, duração {duracao:.1f}s"
+            )
 
     def enqueue(self, pid, ts, payload):
         """Cria a pilha de um novo paciente desta sala"""
@@ -138,7 +149,6 @@ class Room:
         with self.cv:
             heapq.heappush(self.queue, (priority, ts, pid, payload))
             self.cv.notify()
-
 
     def size(self):
         """Retorna o tamanho atual da fila"""
