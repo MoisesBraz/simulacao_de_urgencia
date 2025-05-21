@@ -29,9 +29,7 @@ class Command(BaseCommand):
         parser.add_argument('--host', default='127.0.0.1')
         parser.add_argument('--port', type=int, default=9000)
         parser.add_argument('--salas', type=int, default=3,
-                            help='Número de salas independentes')
-        parser.add_argument('--medicos', type=int, default=5,
-                            help='Número de médicos por sala')
+                            help='Número de salas independentes e médico por cada sala')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -54,126 +52,14 @@ class Command(BaseCommand):
         host = opts['host']
         port = opts['port']
         n_salas = opts['salas']
-        n_medicos = opts['medicos']
+        n_medicos = n_salas
 
-        # inicializa as filas
-        self.salas = [[] for _ in range(n_salas)]
+        # Instancia as salas cada Room cria a sua lógica de fila, médicos e purga
+        self.rooms = [
+            Room(room_id=i, num_medicos=n_medicos)
+            for i in range(n_salas)
+        ]
         self._next_sala = 0
-
-        # Thread desistências em todas as salas
-        def purge_thread():
-            while True:
-                time.sleep(1)
-                now = datetime.utcnow().isoformat() + 'Z'
-                with self._queue_cv:
-                    for fila in self.salas:
-                        restante = []
-                        for priority, ts, pid, payload in fila:
-                            nivel = payload.get('urgencia') or payload.get('urgência')
-                            waited = (datetime.fromisoformat(now[:-1])
-                                      - datetime.fromisoformat(ts[:-1])).total_seconds()
-                            if waited > TIMEOUTS.get(nivel, 0):
-                                rec = {
-                                    "pid": pid,
-                                    "medico": None,
-                                    "room": None,
-                                    "chegada": ts,
-                                    "nivel": nivel,
-                                    "inicio": None,
-                                    "saida": now,
-                                    "espera": waited,
-                                    "duracao": None,
-                                    "desistencia": True
-                                }
-                                with self._log_lock:
-                                    self.log_event(rec)
-                            else:
-                                restante.append((priority, ts, pid, payload))
-                        fila[:] = restante
-                        heapq.heapify(fila)
-
-        threading.Thread(target=purge_thread, daemon=True).start()
-
-        # Cada médico fica “fixo” numa sala, mas pode emprestar casos críticos
-        def medico_thread(med_id, sala_id):
-            while True:
-                with self._queue_cv:
-                    # Espera que haja pelo menos 1 paciente em x sala
-                    while not any(self.salas):
-                        self._queue_cv.wait()
-                    # Primeiro tenta na sua sala
-                    if self.salas[sala_id]:
-                        priority, ts, pid, payload = heapq.heappop(self.salas[sala_id])
-                    else:
-                        # Empresta casos críticos (prioridade 0) de outras salas
-                        emprestado = None
-                        for i, fila in enumerate(self.salas):
-                            if fila and fila[0][0] == 0:
-                                emprestado = (i, heapq.heappop(fila))
-                                break
-                        if emprestado:
-                            _, (priority, ts, pid, payload) = emprestado
-                        else:
-                            # Rouba o de maior urgência (menor priority) global
-                            candidato = None
-                            for i, fila in enumerate(self.salas):
-                                if fila:
-                                    top = fila[0]
-                                    if candidato is None or top[0] < candidato[1][0]:
-                                        candidato = (i, top)
-                            sala_orig, _ = candidato
-                            priority, ts, pid, payload = heapq.heappop(self.salas[sala_orig])
-
-                urg = payload.get('urgencia') or payload.get('urgência')
-                tempo = TEMPOS_ATENDIMENTO[urg]
-                inicio = datetime.utcnow().isoformat() + 'Z'
-                espera = (datetime.fromisoformat(inicio[:-1])
-                          - datetime.fromisoformat(ts[:-1])).total_seconds()
-                rec_start = {
-                    "pid": pid,
-                    "medico": med_id,
-                    "room": sala_id,
-                    "chegada": ts,
-                    "nivel": urg,
-                    "inicio": inicio,
-                    "saida": None,
-                    "espera": espera,
-                    "duracao": None,
-                    "desistencia": False
-                }
-                with self._log_lock:
-                    self.log_event(rec_start)
-
-                time.sleep(tempo)
-                fim = datetime.utcnow().isoformat() + 'Z'
-                dur = (datetime.fromisoformat(fim[:-1])
-                       - datetime.fromisoformat(inicio[:-1])).total_seconds()
-                rec_end = {
-                    "pid": pid,
-                    "medico": med_id,
-                    "room": sala_id,
-                    "chegada": ts,
-                    "nivel": urg,
-                    "inicio": inicio,
-                    "saida": fim,
-                    "espera": espera,
-                    "duracao": dur,
-                    "desistencia": False
-                }
-                with self._log_lock:
-                    self.log_event(rec_end)
-                self.stdout.write(
-                    f"[{fim}] Méd {med_id}(S{sala_id}) PID{pid} {urg} "
-                    f"espera {espera:.1f}s dur {dur:.1f}s"
-                )
-
-        # lança N médicos por sala
-        for sala in range(n_salas):
-            for m in range(1, n_medicos + 1):
-                t = threading.Thread(target=medico_thread,
-                                     args=(m, sala),
-                                     daemon=True)
-                t.start()
 
         # servidor TCP
         with socket.socket() as srv:
@@ -212,12 +98,9 @@ class Command(BaseCommand):
                     with self._log_lock:
                         self.log_event(chegada)
 
-                    # round-robin na sala
-                    with self._queue_cv:
-                        sala = self._next_sala % n_salas
-                        self._next_sala += 1
-                        priority = URGENCIA_PRIORIDADES.get(urg, 99)
-                        heapq.heappush(self.salas[sala], (priority, ts, pid, pay))
-                        self._queue_cv.notify()
+                    # round-robin: encaminha para a fila da sala correspondente
 
+                    sala = self._next_sala % n_salas
+                    self._next_sala += 1
+                    self.rooms[sala].enqueue(pid, ts, pay)
                     conn.sendall(b'CHEGADA_RECEBIDA')

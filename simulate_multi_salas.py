@@ -6,14 +6,14 @@ import random
 import argparse
 
 HOST = '127.0.0.1'
-PORT = 3000
+PORT = 9000
 NIVEIS = ['vermelho', 'amarelo', 'verde']
 
 
-def start_server(salas, medicos):
+def start_server(salas):
     cmd = ['python', 'manage.py', 'runurgencias',
            f'--host={HOST}', f'--port={PORT}',
-           f'--salas={salas}', f'--medicos={medicos}']
+           f'--salas={salas}', f'--medicos=1']
     return subprocess.Popen(cmd, preexec_fn=os.setsid)
 
 
@@ -56,14 +56,12 @@ if __name__ == '__main__':
     p = argparse.ArgumentParser(
         description="Simular múltiplas salas de urgência"
     )
-    p.add_argument('--salas', type=int, default=3, help="Nº de salas")
-    p.add_argument('--medicos', type=int, default=5, help="Nº de médicos")
+    p.add_argument('--salas', type=int, default=3, help="Nº de salas e médicos")
     p.add_argument('--pacientes', type=int, default=20, help="Total pacientes")
     p.add_argument('--surto', type=int, default=5, help="Tamanho do surto")
     args = p.parse_args()
 
     SALAS = args.salas
-    MEDICOS = args.medicos
     PACIENTES = args.pacientes
     SURTO = args.surto
 
@@ -73,13 +71,13 @@ if __name__ == '__main__':
 
     # Grava o estado inicial de médicos e salas
     initial = {
-        'medicos_totais': MEDICOS,
+        'medicos_totais': SALAS,
         'salas_totais': SALAS,
     }
     with open('logs.json', 'w', encoding='utf-8') as f:
         json.dump(initial, f, ensure_ascii=False, indent=2)
 
-    srv = start_server(SALAS, MEDICOS)
+    srv = start_server(SALAS)
     time.sleep(1)
 
     try:
@@ -116,19 +114,18 @@ if __name__ == '__main__':
             try:
                 with open('logs.json', 'r', encoding='utf-8') as f:
                     data = json.load(f)
-                done = 0
-                # para cada PID de 0 até PACIENTES-1, conta quem já saiu ou desistiu
-                for i in range(PACIENTES):
-                    rec = data.get(str(i), {})
-                    if rec.get('saida') is not None or rec.get('desistencia') is True:
-                        done += 1
+                done = sum(
+                    1 for i in range(PACIENTES)
+                    if data.get(str(i), {}).get('saida') is not None
+                        or data.get(str(i), {}).get('desistencia') is True
+                )
                 if done >= PACIENTES:
                     break
             except Exception:
                 pass
             time.sleep(1)
 
-        # adiciona total_surtos no log final
+        # Regista total de surtos
         try:
             with open('logs.json', 'r+', encoding='utf-8') as f:
                 data = json.load(f)
