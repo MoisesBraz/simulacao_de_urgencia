@@ -1,6 +1,6 @@
 import math
 import signal
-import socket, json, threading, time, subprocess, os
+import socket, json, threading, time, subprocess, os, errno
 from datetime import datetime
 import random
 import argparse
@@ -11,11 +11,16 @@ NIVEIS = ['vermelho', 'amarelo', 'verde']
 
 
 def start_server(salas):
-    cmd = ['python', 'manage.py', 'runurgencias',
-           f'--host={HOST}', f'--port={PORT}',
-           f'--salas={salas}', f'--medicos=1']
+    # Caso se já existir algo escutando na porta, assume serevidor existente
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        if s.connect_ex((HOST, PORT)) == 0:
+            print(f"⚠️  Porta {PORT} já em uso, reutilizando o servidor existente")
+            return None
+    cmd = [
+        'python', 'manage.py', 'runurgencias',
+        f'--host={HOST}', f'--port={PORT}', f'--salas={salas}', f'--medicos=1'
+    ]
     return subprocess.Popen(cmd, preexec_fn=os.setsid)
-
 
 def patient(pid, level, room):
     ts = datetime.utcnow().isoformat() + 'Z'
@@ -61,6 +66,9 @@ if __name__ == '__main__':
     p.add_argument('--surto', type=int, default=5, help="Tamanho do surto")
     args = p.parse_args()
 
+    if args.surto < 1:
+        p.error("O valor de --surto deve ser >= 1")
+
     SALAS = args.salas
     PACIENTES = args.pacientes
     SURTO = args.surto
@@ -78,7 +86,8 @@ if __name__ == '__main__':
         json.dump(initial, f, ensure_ascii=False, indent=2)
 
     srv = start_server(SALAS)
-    time.sleep(1)
+    if srv:
+        time.sleep(1)
 
     try:
         # Simula surtos
@@ -136,8 +145,11 @@ if __name__ == '__main__':
         except Exception:
             pass
     finally:
-        # Desliga o servidor só se nós o arrancámos
-        print("🏁 Finalizando servidor")
-        os.killpg(srv.pid, signal.SIGTERM)
-        srv.wait()
-        print("✅ Teste concluído. Verifique logs.json e a saída de urgências.")
+        if srv:
+            # Desliga o servidor só se nós o arrancámos
+            print("🏁 Finalizando servidor")
+            os.killpg(srv.pid, signal.SIGTERM)
+            srv.wait()
+            print("✅ Teste concluído. Verifique logs.json e a saída de urgências.")
+        else:
+            print("✅ Simulação concluída (servidor existente mantido).")

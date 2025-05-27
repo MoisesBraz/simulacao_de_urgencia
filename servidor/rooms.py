@@ -7,11 +7,11 @@ from servidor.constants import TIMEOUTS, TEMPOS_ATENDIMENTO, URGENCIA_PRIORIDADE
 
 
 class Room:
-    def __init__(self, room_id, num_medicos=5):
+    def __init__(self, room_id, num_medicos=5, log_lock= None):
         self.room_id = room_id
         self.queue = []
         self.cv = threading.Condition()  # Condiciona a chegada/saida de pacientes
-        self.log_lock = threading.Lock()
+        self.log_lock = log_lock or threading.Lock()
 
         # Ativa todos os médicos desta sala com threads
         for m in range(1, num_medicos + 1):
@@ -24,25 +24,27 @@ class Room:
 
     def log_event(self, record):
         """Grava eventos logs"""
-        try:
-            with open('logs.json', 'r', encoding='utf-8') as f:
-                data = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            data = {}
-        data[str(record['pid'])] = record
-        with open('logs.json', 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        with self.log_lock:
+            try:
+                with open('logs.json', 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError):
+                data = {}
+            data[str(record['pid'])] = record
+            with open('logs.json', 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
 
     def _update_med_status(self, med_key, room, ocupado):
         """Atualiza med_status.json quando o médico começa ou termina o atendimento"""
-        try:
-            with open('med_status.json', 'r', encoding='utf-8') as f:
-                status = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            status = {}
-        status[med_key] = {'room': room if ocupado else None, 'ocupado': ocupado}
-        with open('med_status.json', 'w', encoding='utf-8') as f:
-            json.dump(status, f, ensure_ascii=False, indent=2)
+        with self.log_lock:
+            try:
+                with open('med_status.json', 'r', encoding='utf-8') as f:
+                    status = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError):
+                status = {}
+            status[med_key] = {'room': room if ocupado else None, 'ocupado': ocupado}
+            with open('med_status.json', 'w', encoding='utf-8') as f:
+                json.dump(status, f, ensure_ascii=False, indent=2)
 
     def purge_worker(self):
         """Desistência dentro desta sala caso o doente espera demasiado"""
@@ -69,8 +71,7 @@ class Room:
                             "duracao": None,
                             "desistencia": True,
                         }
-                        with self.log_lock:
-                            self.log_event(rec)
+                        self.log_event(rec)
                     else:
                         new_queue.append((priority, ts, pid, payload))
                 # Reconstroi a pilha para quem não desistiu
@@ -107,9 +108,7 @@ class Room:
                 "duracao": None,
                 "desistencia": False
             }
-
-            with self.log_lock:
-                self.log_event(rec_start)
+            self.log_event(rec_start)
             self._update_med_status(med_key, self.room_id, True)
 
             # Simula atendimento
@@ -122,7 +121,7 @@ class Room:
 
             record_end = {
                 "pid": pid,
-                "medico": f"{med_id}",
+                "medico": med_key,
                 "room": self.room_id,
                 "chegada": ts,
                 "nivel": urg,
@@ -132,13 +131,10 @@ class Room:
                 "duracao": duracao,
                 "desistencia": False
             }
-
-            with self.log_lock:
-                self.log_event(record_end)
+            self.log_event(record_end)
             self._update_med_status(med_key, self.room_id, False)
-
             print(
-                f"[Sala {self.room_id}] Médico {med_id} terminou PID {pid} ({urg}) "
+                f"[Sala {self.room_id}] Médico {med_key} terminou PID {pid} ({urg}) "
                 f"espera {espera:.1f}s, duração {duracao:.1f}s"
             )
 
