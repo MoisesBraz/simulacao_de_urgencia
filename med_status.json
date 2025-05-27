@@ -1,4 +1,16 @@
 {
+  "16-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "28-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "29-1": {
+    "room": null,
+    "ocupado": false
+  },
   "0-1": {
     "room": null,
     "ocupado": false
@@ -7,15 +19,71 @@
     "room": null,
     "ocupado": false
   },
-  "2-1": {
-    "room": null,
-    "ocupado": false
-  },
   "3-1": {
     "room": null,
     "ocupado": false
   },
+  "17-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "20-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "8-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "9-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "15-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "27-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "18-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "2-1": {
+    "room": null,
+    "ocupado": false
+  },
   "4-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "7-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "23-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "24-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "25-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "13-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "14-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "19-1": {
     "room": null,
     "ocupado": false
   },
@@ -27,15 +95,27 @@
     "room": null,
     "ocupado": false
   },
-  "7-1": {
+  "10-1": {
     "room": null,
     "ocupado": false
   },
-  "8-1": {
+  "11-1": {
     "room": null,
     "ocupado": false
   },
-  "9-1": {
+  "12-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "22-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "21-1": {
+    "room": null,
+    "ocupado": false
+  },
+  "26-1": {
     "room": null,
     "ocupado": false
   }
