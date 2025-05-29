@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,8 +33,10 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-# Application definition
+# Load .env
+API_KEY = os.environ.get('API_KEY')
 
+# Application definition
 INSTALLED_APPS = [
     'channels',
     'django.contrib.auth',

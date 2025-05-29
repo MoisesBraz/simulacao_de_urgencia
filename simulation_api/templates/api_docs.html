@@ -9,16 +9,28 @@
     pre { background: #f5f5f5; padding: 1rem; overflow-x: auto }
     section { margin-bottom: 3rem; }
     code { color: #c7254e; }
+    .headers { margin-bottom: 1rem; }
+    .headers code { display: block; }
   </style>
 </head>
 <body>
 
   <h1>Documentação da API</h1>
   <p>Base URL: <code>/api/</code></p>
+  <div class="headers">
+    <h3>Autenticação</h3>
+    <p>Todos os endpoints requerem no header a chave <code>X-API-KEY</code> igual ao valor configurado em <code>.env</code>:</p>
+    <pre><code>X-API-KEY: sua_chave_aqui</code></pre>
+  </div>
 
   <section>
     <h2>1. POST <code>/api/runurgencias/</code></h2>
     <p><strong>Descrição:</strong> Inicia o servidor de urgências (TCP).</p>
+    <h3>Headers</h3>
+    <pre><code>
+X-API-KEY: sua_chave_aqui
+Content-Type: application/json
+    </code></pre>
     <h3>Request Body</h3>
     <pre><code>{
   "host": "127.0.0.1",   // opcional (default)
@@ -38,6 +50,11 @@
   <section>
     <h2>2. POST <code>/api/runcliente/</code></h2>
     <p><strong>Descrição:</strong> Dispara um surto de clientes que se ligam ao servidor.</p>
+    <h3>Headers</h3>
+    <pre><code>
+X-API-KEY: sua_chave_aqui
+Content-Type: application/json
+    </code></pre>
     <h3>Request Body</h3>
     <pre><code>{
   "host": "127.0.0.1",
@@ -57,8 +74,12 @@
 
   <section>
     <h2>3. POST <code>/api/simulate/</code></h2>
-    <p><strong>Descrição:</strong> Inicia o servidor (se ainda não estiver, caso se estivar vai conter os médicos do servidor),
-    depois executa simulação multi-salas.</p>
+    <p><strong>Descrição:</strong> Inicia o servidor (se ainda não estiver rodando) e executa simulação multi-salas.</p>
+    <h3>Headers</h3>
+    <pre><code>
+X-API-KEY: sua_chave_aqui
+Content-Type: application/json
+    </code></pre>
     <h3>Request Body</h3>
     <pre><code>{
   "salas": 5,
@@ -77,7 +98,11 @@
 
   <section>
     <h2>4. GET <code>/api/commands/&lt;id&gt;/</code></h2>
-    <p><strong>Descrição:</strong> Estado do comando (running/finished/error).</p>
+    <p><strong>Descrição:</strong> Estado do comando (<code>running</code>/ <code>finished</code>/ <code>error</code>).</p>
+    <h3>Headers</h3>
+    <pre><code>
+X-API-KEY: sua_chave_aqui
+    </code></pre>
     <h3>Resposta (200 OK)</h3>
     <pre><code>{
   "id": 9,
@@ -91,8 +116,11 @@
 
   <section>
     <h2>5. GET <code>/api/logs/</code></h2>
-    <p><strong>Descrição:</strong> Retorna o conteúdo de <code>logs.json</code> com
-    chegadas, atendimentos e desistências.</p>
+    <p><strong>Descrição:</strong> Retorna o conteúdo de <code>logs.json</code> com chegadas, atendimentos e desistências.</p>
+    <h3>Headers</h3>
+    <pre><code>
+X-API-KEY: sua_chave_aqui
+    </code></pre>
     <h3>Resposta (200 OK)</h3>
     <pre><code>{
   "0": { "pid":0, "chegada":"…", "saida":"…", … },

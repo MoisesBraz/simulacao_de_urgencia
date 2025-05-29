@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
 from .models import CommandRun
+from .permissions import HasAPIKey
 from .serializers import CommandRunSerializer
 
 # Onde se encontra os scripts
@@ -21,6 +22,8 @@ class RunUrgencias(APIView):
         POST /api/runurgencias/
         { "host": "127.0.0.1", "port": 9000, "salas": 3 }
     """
+    permission_classes = [HasAPIKey]
+
     def post(self, request):
         host = request.data.get('host', '127.0.0.1')
         port = request.data.get('port', 9000)
@@ -45,6 +48,8 @@ class RunCliente(APIView):
         POST /api/runcliente/
         { "host":"127.0.0.1", "port":9000, "urgencia":"vermelho", "surto":5 }
     """
+    permission_classes = [HasAPIKey]
+
     def post(self, request):
         host = request.data.get('host', '127.0.0.1')
         port = request.data.get('port', 9000)
@@ -70,6 +75,8 @@ class SimulateMultiSalas(APIView):
         POST /api/simulate/
         { "salas":3, "pacientes":20, "surto":5 }
     """
+    permission_classes = [HasAPIKey]
+
     def post(self, request):
         salas = request.data.get('salas', 3)
         pacientes = request.data.get('pacientes', 20)
@@ -93,6 +100,8 @@ class CommandStatus(APIView):
     """
         GET /api/commands/<id>/
     """
+    permission_classes = [HasAPIKey]
+
     def get(self, request, pk):
         try:
             cr = CommandRun.objects.get(pk=pk)
@@ -105,6 +114,8 @@ class LogsView(APIView):
        GET /api/logs/
        Retorna conteúdo de logs.json para inspeção do estado dos pacientes.
     """
+    permission_classes = [HasAPIKey]
+
     def get(self, request):
         logs_path = os.path.join(BASE_DIR, 'logs.json')
         if not os.path.exists(logs_path):
