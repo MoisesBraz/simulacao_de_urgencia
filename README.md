@@ -10,3 +10,12 @@ python simulate_multi_salas.py --salas (n_salas e n_medicos)  --pacientes (n_pac
 
 **O número de salas deve ser igual no simulate_multi_salas e runurgenciars**, existe um erro lógico de implementação que 
 deve ser resolvido no futuro
+
+
+Cointers do docker para dar run ao server (cloudflare):
+sempre dar este comando quando o crias um novo tunnel para conectar ao docker-compose:
+     sudo docker network connect shared nome_do_container (friendly_engelbart)
+friendly_engelbart
+
+Dar build ao projeto online:
+    sudo docker compose up --build

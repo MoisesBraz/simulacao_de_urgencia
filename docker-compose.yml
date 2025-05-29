@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+    expose:
+      - "8000"
+    networks:
+      - shared
+
+  nginx:
+    image: nginx:latest
+    container_name: simulacao_urgencia_nginx
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/app/static:ro
+    depends_on:
+      - web
+    networks:
+      - shared
+
+volumes:
+  static_volume:
+
+networks:
+  shared:
+    external: true

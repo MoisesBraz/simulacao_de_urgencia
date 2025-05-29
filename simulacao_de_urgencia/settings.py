@@ -25,8 +25,13 @@ SECRET_KEY = 'django-insecure-afp96b7ivg0$&qy4bclbi-o_*k-$0evp-fxdec+368nx45@ot@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    'simulacaourgencia.pt',
+    'www.simulacaourgencia.pt',
+    '192.168.1.129',
+    'localhost',
+    '127.0.0.1',
+]
 
 # Application definition
 
@@ -120,6 +125,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
