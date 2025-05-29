@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <title>Simulação de Urgências – Documentação da API</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    h1,h2 { color: #333 }
+    pre { background: #f5f5f5; padding: 1rem; overflow-x: auto }
+    section { margin-bottom: 3rem; }
+    code { color: #c7254e; }
+  </style>
+</head>
+<body>
+
+  <h1>Documentação da API</h1>
+  <p>Base URL: <code>/api/</code></p>
+
+  <section>
+    <h2>1. POST <code>/api/runurgencias/</code></h2>
+    <p><strong>Descrição:</strong> Inicia o servidor de urgências (TCP).</p>
+    <h3>Request Body</h3>
+    <pre><code>{
+  "host": "127.0.0.1",   // opcional (default)
+  "port": 9000,          // opcional (default)
+  "salas": 3             // opcional (default)
+}</code></pre>
+    <h3>Resposta (201 Created)</h3>
+    <pre><code>{
+  "id": 7,
+  "command": "runurgencias",
+  "args": { "host":"127.0.0.1","port":9000,"salas":3 },
+  "status": "running",
+  "pid": 12345
+}</code></pre>
+  </section>
+
+  <section>
+    <h2>2. POST <code>/api/runcliente/</code></h2>
+    <p><strong>Descrição:</strong> Dispara um surto de clientes que se ligam ao servidor.</p>
+    <h3>Request Body</h3>
+    <pre><code>{
+  "host": "127.0.0.1",
+  "port": 9000,
+  "urgencia": "vermelho",
+  "surto": 5
+}</code></pre>
+    <h3>Resposta (201 Created)</h3>
+    <pre><code>{
+  "id": 8,
+  "command": "runcliente",
+  "args": {"host":"127.0.0.1","port":9000,"urgencia":"vermelho","surto":5},
+  "status": "running",
+  "pid": 12346
+}</code></pre>
+  </section>
+
+  <section>
+    <h2>3. POST <code>/api/simulate/</code></h2>
+    <p><strong>Descrição:</strong> Inicia o servidor (se ainda não estiver, caso se estivar vai conter os médicos do servidor),
+    depois executa simulação multi-salas.</p>
+    <h3>Request Body</h3>
+    <pre><code>{
+  "salas": 5,
+  "pacientes": 100,
+  "surto": 5
+}</code></pre>
+    <h3>Resposta (201 Created)</h3>
+    <pre><code>{
+  "id": 9,
+  "command": "simulate",
+  "args": {"salas":5,"pacientes":100,"surto":5},
+  "status": "running",
+  "pid": 12347
+}</code></pre>
+  </section>
+
+  <section>
+    <h2>4. GET <code>/api/commands/&lt;id&gt;/</code></h2>
+    <p><strong>Descrição:</strong> Estado do comando (running/finished/error).</p>
+    <h3>Resposta (200 OK)</h3>
+    <pre><code>{
+  "id": 9,
+  "command": "simulate",
+  "args": {…},
+  "status": "finished",
+  "pid": 12347
+}</code></pre>
+    <p><em>404 Not Found</em> se o id não existir.</p>
+  </section>
+
+  <section>
+    <h2>5. GET <code>/api/logs/</code></h2>
+    <p><strong>Descrição:</strong> Retorna o conteúdo de <code>logs.json</code> com
+    chegadas, atendimentos e desistências.</p>
+    <h3>Resposta (200 OK)</h3>
+    <pre><code>{
+  "0": { "pid":0, "chegada":"…", "saida":"…", … },
+  "1": { … },
+  …,
+  "total_surtos": 20
+}</code></pre>
+    <p><em>404 Not Found</em> se o ficheiro não existir.</p>
+  </section>
+
+</body>
+</html>

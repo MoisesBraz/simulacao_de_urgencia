@@ -1,4 +1,6 @@
 import os, subprocess, threading, json
+
+from django.views.generic import TemplateView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -110,3 +112,9 @@ class LogsView(APIView):
         with open(logs_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         return Response(data)
+
+class APIDocumentation(TemplateView):
+    """
+        Renders a static HTML page com a documentação da API.
+    """
+    template_name = "api_docs.html"
