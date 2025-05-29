@@ -349,16 +349,15 @@
   },
   "848": {
     "pid": 848,
-    "medico": null,
-    "room": null,
+    "medico": "8-1",
+    "room": 8,
     "chegada": "2025-05-29T10:07:25.362448Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 85
+    "inicio": "2025-05-29T10:11:24.993342Z",
+    "saida": "2025-05-29T10:11:39.996796Z",
+    "espera": 239.630894,
+    "duracao": 15.003454,
+    "desistencia": false
   },
   "849": {
     "pid": 849,
@@ -415,23 +414,22 @@
     "chegada": "2025-05-29T10:07:27.614348Z",
     "nivel": "vermelho",
     "inicio": "2025-05-29T10:11:09.713313Z",
-    "saida": null,
+    "saida": "2025-05-29T10:11:24.716697Z",
     "espera": 222.098965,
-    "duracao": null,
+    "duracao": 15.003384,
     "desistencia": false
   },
   "854": {
     "pid": 854,
-    "medico": null,
-    "room": null,
+    "medico": "4-1",
+    "room": 4,
     "chegada": "2025-05-29T10:07:27.664574Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 86
+    "inicio": "2025-05-29T10:11:24.776833Z",
+    "saida": "2025-05-29T10:11:39.780196Z",
+    "espera": 237.112259,
+    "duracao": 15.003363,
+    "desistencia": false
   },
   "855": {
     "pid": 855,
@@ -748,15 +746,14 @@
   "868": {
     "pid": 868,
     "medico": null,
-    "room": null,
+    "room": 8,
     "chegada": "2025-05-29T10:07:30.368125Z",
     "nivel": "vermelho",
     "inicio": null,
-    "saida": null,
-    "espera": null,
+    "saida": "2025-05-29T10:11:31.081540Z",
+    "espera": 240.713415,
     "duracao": null,
-    "desistencia": false,
-    "surto": 87
+    "desistencia": true
   },
   "869": {
     "pid": 869,
@@ -844,16 +841,15 @@
   },
   "873": {
     "pid": 873,
-    "medico": null,
-    "room": null,
+    "medico": "3-1",
+    "room": 3,
     "chegada": "2025-05-29T10:07:32.620060Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 88
+    "inicio": "2025-05-29T10:11:24.721127Z",
+    "saida": "2025-05-29T10:11:39.724788Z",
+    "espera": 232.101067,
+    "duracao": 15.003661,
+    "desistencia": false
   },
   "874": {
     "pid": 874,
@@ -874,9 +870,9 @@
     "chegada": "2025-05-29T10:07:32.720464Z",
     "nivel": "vermelho",
     "inicio": "2025-05-29T10:11:09.817383Z",
-    "saida": null,
+    "saida": "2025-05-29T10:11:24.821547Z",
     "espera": 217.096919,
-    "duracao": null,
+    "duracao": 15.004164,
     "desistencia": false
   },
   "876": {
@@ -1182,15 +1178,14 @@
   "883": {
     "pid": 883,
     "medico": null,
-    "room": null,
+    "room": 3,
     "chegada": "2025-05-29T10:07:35.123218Z",
     "nivel": "vermelho",
     "inicio": null,
-    "saida": null,
-    "espera": null,
+    "saida": "2025-05-29T10:11:36.074386Z",
+    "espera": 240.951168,
     "duracao": null,
-    "desistencia": false,
-    "surto": 89
+    "desistencia": true
   },
   "884": {
     "pid": 884,
@@ -1206,16 +1201,15 @@
   },
   "885": {
     "pid": 885,
-    "medico": null,
-    "room": null,
+    "medico": "5-1",
+    "room": 5,
     "chegada": "2025-05-29T10:07:35.223577Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 89
+    "inicio": "2025-05-29T10:11:24.825190Z",
+    "saida": "2025-05-29T10:11:39.828749Z",
+    "espera": 229.601613,
+    "duracao": 15.003559,
+    "desistencia": false
   },
   "886": {
     "pid": 886,
@@ -1340,15 +1334,14 @@
   "894": {
     "pid": 894,
     "medico": null,
-    "room": null,
+    "room": 4,
     "chegada": "2025-05-29T10:07:37.677034Z",
     "nivel": "vermelho",
     "inicio": null,
-    "saida": null,
-    "espera": null,
+    "saida": "2025-05-29T10:11:38.114362Z",
+    "espera": 240.437328,
     "duracao": null,
-    "desistencia": false,
-    "surto": 90
+    "desistencia": true
   },
   "895": {
     "pid": 895,
@@ -1796,16 +1789,15 @@
   },
   "915": {
     "pid": 915,
-    "medico": null,
-    "room": null,
+    "medico": "5-1",
+    "room": 5,
     "chegada": "2025-05-29T10:07:42.734571Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 92
+    "inicio": "2025-05-29T10:11:39.832451Z",
+    "saida": "2025-05-29T10:11:54.836037Z",
+    "espera": 237.09788,
+    "duracao": 15.003586,
+    "desistencia": false
   },
   "916": {
     "pid": 916,
@@ -2102,9 +2094,9 @@
     "chegada": "2025-05-29T10:07:45.037931Z",
     "nivel": "vermelho",
     "inicio": "2025-05-29T10:11:04.623500Z",
-    "saida": null,
+    "saida": "2025-05-29T10:11:19.627073Z",
     "espera": 199.585569,
-    "duracao": null,
+    "duracao": 15.003573,
     "desistencia": false
   },
   "922": {
@@ -2133,29 +2125,27 @@
   },
   "924": {
     "pid": 924,
-    "medico": null,
-    "room": null,
+    "medico": "4-1",
+    "room": 4,
     "chegada": "2025-05-29T10:07:45.188469Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 93
+    "inicio": "2025-05-29T10:11:39.783978Z",
+    "saida": "2025-05-29T10:11:54.787774Z",
+    "espera": 234.595509,
+    "duracao": 15.003796,
+    "desistencia": false
   },
   "925": {
     "pid": 925,
     "medico": null,
-    "room": null,
+    "room": 5,
     "chegada": "2025-05-29T10:07:45.238663Z",
     "nivel": "vermelho",
     "inicio": null,
-    "saida": null,
-    "espera": null,
+    "saida": "2025-05-29T10:11:46.102599Z",
+    "espera": 240.863936,
     "duracao": null,
-    "desistencia": false,
-    "surto": 93
+    "desistencia": true
   },
   "926": {
     "pid": 926,
@@ -2183,29 +2173,27 @@
   },
   "928": {
     "pid": 928,
-    "medico": null,
-    "room": null,
+    "medico": "8-1",
+    "room": 8,
     "chegada": "2025-05-29T10:07:45.389351Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 93
+    "inicio": "2025-05-29T10:11:40.001097Z",
+    "saida": "2025-05-29T10:11:55.004658Z",
+    "espera": 234.611746,
+    "duracao": 15.003561,
+    "desistencia": false
   },
   "929": {
     "pid": 929,
-    "medico": null,
-    "room": null,
+    "medico": "9-1",
+    "room": 9,
     "chegada": "2025-05-29T10:07:45.439565Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 93
+    "inicio": "2025-05-29T10:11:20.111869Z",
+    "saida": "2025-05-29T10:11:35.115517Z",
+    "espera": 214.672304,
+    "duracao": 15.003648,
+    "desistencia": false
   },
   "687": {
     "pid": 687,
@@ -2269,29 +2257,27 @@
   },
   "933": {
     "pid": 933,
-    "medico": null,
-    "room": null,
+    "medico": "3-1",
+    "room": 3,
     "chegada": "2025-05-29T10:07:47.642468Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 94
+    "inicio": "2025-05-29T10:11:39.728572Z",
+    "saida": "2025-05-29T10:11:54.732061Z",
+    "espera": 232.086104,
+    "duracao": 15.003489,
+    "desistencia": false
   },
   "934": {
     "pid": 934,
     "medico": null,
-    "room": null,
+    "room": 4,
     "chegada": "2025-05-29T10:07:47.692682Z",
     "nivel": "vermelho",
     "inicio": null,
-    "saida": null,
-    "espera": null,
+    "saida": "2025-05-29T10:11:48.118828Z",
+    "espera": 240.426146,
     "duracao": null,
-    "desistencia": false,
-    "surto": 94
+    "desistencia": true
   },
   "935": {
     "pid": 935,
@@ -2548,15 +2534,14 @@
   "943": {
     "pid": 943,
     "medico": null,
-    "room": null,
+    "room": 3,
     "chegada": "2025-05-29T10:07:50.146579Z",
     "nivel": "vermelho",
     "inicio": null,
-    "saida": null,
-    "espera": null,
+    "saida": "2025-05-29T10:11:51.079576Z",
+    "espera": 240.932997,
     "duracao": null,
-    "desistencia": false,
-    "surto": 95
+    "desistencia": true
   },
   "944": {
     "pid": 944,
@@ -2609,15 +2594,14 @@
   "948": {
     "pid": 948,
     "medico": null,
-    "room": null,
+    "room": 8,
     "chegada": "2025-05-29T10:07:50.397480Z",
     "nivel": "vermelho",
     "inicio": null,
-    "saida": null,
-    "espera": null,
+    "saida": "2025-05-29T10:11:51.087038Z",
+    "espera": 240.689558,
     "duracao": null,
-    "desistencia": false,
-    "surto": 95
+    "desistencia": true
   },
   "949": {
     "pid": 949,
@@ -3065,16 +3049,15 @@
   },
   "965": {
     "pid": 965,
-    "medico": null,
-    "room": null,
+    "medico": "5-1",
+    "room": 5,
     "chegada": "2025-05-29T10:07:55.253959Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 97
+    "inicio": "2025-05-29T10:11:54.840099Z",
+    "saida": "2025-05-29T10:12:09.843610Z",
+    "espera": 239.58614,
+    "duracao": 15.003511,
+    "desistencia": false
   },
   "966": {
     "pid": 966,
@@ -3210,14 +3193,14 @@
   },
   "971": {
     "pid": 971,
-    "medico": null,
-    "room": null,
+    "medico": "1-1",
+    "room": 1,
     "chegada": "2025-05-29T10:07:57.558026Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
+    "inicio": "2025-05-29T10:11:19.630952Z",
+    "saida": "2025-05-29T10:11:34.634431Z",
+    "espera": 202.072926,
+    "duracao": 15.003479,
     "desistencia": false
   },
   "972": {
@@ -3523,15 +3506,14 @@
   "985": {
     "pid": 985,
     "medico": null,
-    "room": null,
+    "room": 5,
     "chegada": "2025-05-29T10:08:00.261435Z",
     "nivel": "vermelho",
     "inicio": null,
-    "saida": null,
-    "espera": null,
+    "saida": "2025-05-29T10:12:01.107590Z",
+    "espera": 240.846155,
     "duracao": null,
-    "desistencia": false,
-    "surto": 99
+    "desistencia": true
   },
   "986": {
     "pid": 986,
@@ -3559,16 +3541,15 @@
   },
   "988": {
     "pid": 988,
-    "medico": null,
-    "room": null,
+    "medico": "8-1",
+    "room": 8,
     "chegada": "2025-05-29T10:08:00.412109Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 99
+    "inicio": "2025-05-29T10:11:55.008567Z",
+    "saida": "2025-05-29T10:12:10.012058Z",
+    "espera": 234.596458,
+    "duracao": 15.003491,
+    "desistencia": false
   },
   "989": {
     "pid": 989,
@@ -3625,9 +3606,9 @@
     "chegada": "2025-05-29T10:08:02.517004Z",
     "nivel": "vermelho",
     "inicio": "2025-05-29T10:11:04.582450Z",
-    "saida": null,
+    "saida": "2025-05-29T10:11:19.585915Z",
     "espera": 182.065446,
-    "duracao": null,
+    "duracao": 15.003465,
     "desistencia": false
   },
   "991": {
@@ -3656,16 +3637,15 @@
   },
   "993": {
     "pid": 993,
-    "medico": null,
-    "room": null,
+    "medico": "3-1",
+    "room": 3,
     "chegada": "2025-05-29T10:08:02.667645Z",
     "nivel": "vermelho",
-    "inicio": null,
-    "saida": null,
-    "espera": null,
-    "duracao": null,
-    "desistencia": false,
-    "surto": 100
+    "inicio": "2025-05-29T10:11:54.736102Z",
+    "saida": "2025-05-29T10:12:09.739644Z",
+    "espera": 232.068457,
+    "duracao": 15.003542,
+    "desistencia": false
   },
   "994": {
     "pid": 994,
@@ -3698,9 +3678,9 @@
     "chegada": "2025-05-29T10:08:02.818301Z",
     "nivel": "vermelho",
     "inicio": "2025-05-29T10:11:09.869500Z",
-    "saida": null,
+    "saida": "2025-05-29T10:11:24.872962Z",
     "espera": 187.051199,
-    "duracao": null,
+    "duracao": 15.003462,
     "desistencia": false
   },
   "997": {
@@ -6578,9 +6558,9 @@
     "chegada": "2025-05-29T10:07:20.388851Z",
     "nivel": "vermelho",
     "inicio": "2025-05-29T10:11:05.104353Z",
-    "saida": null,
+    "saida": "2025-05-29T10:11:20.108074Z",
     "espera": 224.715502,
-    "duracao": null,
+    "duracao": 15.003721,
     "desistencia": false
   },
   "778": {
@@ -6602,9 +6582,9 @@
     "chegada": "2025-05-29T10:07:15.117445Z",
     "nivel": "vermelho",
     "inicio": "2025-05-29T10:11:09.769409Z",
-    "saida": null,
+    "saida": "2025-05-29T10:11:24.773053Z",
     "espera": 234.651964,
-    "duracao": null,
+    "duracao": 15.003644,
     "desistencia": false
   },
   "788": {
@@ -6614,9 +6594,21 @@
     "chegada": "2025-05-29T10:07:10.298696Z",
     "nivel": "vermelho",
     "inicio": "2025-05-29T10:11:09.985710Z",
-    "saida": null,
+    "saida": "2025-05-29T10:11:24.989366Z",
     "espera": 239.687014,
-    "duracao": null,
+    "duracao": 15.003656,
     "desistencia": false
+  },
+  "834": {
+    "pid": 834,
+    "medico": null,
+    "room": 4,
+    "chegada": "2025-05-29T10:07:22.647807Z",
+    "nivel": "vermelho",
+    "inicio": null,
+    "saida": "2025-05-29T10:11:23.109550Z",
+    "espera": 240.461743,
+    "duracao": null,
+    "desistencia": true
   }
 }
