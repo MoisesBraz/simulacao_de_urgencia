@@ -1,22 +1,42 @@
 {
   "0-1": {
-    "room": null,
-    "ocupado": false
+    "room": 0,
+    "ocupado": true
   },
   "1-1": {
-    "room": null,
-    "ocupado": false
+    "room": 1,
+    "ocupado": true
   },
   "2-1": {
     "room": null,
     "ocupado": false
   },
   "3-1": {
+    "room": 3,
+    "ocupado": true
+  },
+  "4-1": {
+    "room": 4,
+    "ocupado": true
+  },
+  "5-1": {
+    "room": 5,
+    "ocupado": true
+  },
+  "6-1": {
+    "room": 6,
+    "ocupado": true
+  },
+  "7-1": {
     "room": null,
     "ocupado": false
   },
-  "4-1": {
-    "room": null,
-    "ocupado": false
+  "8-1": {
+    "room": 8,
+    "ocupado": true
+  },
+  "9-1": {
+    "room": 9,
+    "ocupado": true
   }
 }
